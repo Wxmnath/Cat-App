@@ -1,16 +1,20 @@
 const express = require("express");
-const req = require("express/lib/request");
-const res = require("express/lib/response");
+const { Cat } = require("./models");
 
 const app = express();
 
 app.use(express.json());
 
-// app.post("/", (req, res) => {
-//   res.send("hello world");
-// });
 app.post("/cats", (req, res) => {
-  res.send(201).json();
+  Cat.create(req.body).then((cat) => res.status(201).json(cat));
+});
+
+app.get("/cats", (req, res) => {
+  Cat.findAll(req.body).then((cat) => res.json(cat));
+});
+
+app.get("/cats/:catId", (req, res) => {
+  Cat.findByPk(req.params.catId).then((cat) => res.json(cat));
 });
 
 module.exports = app;
