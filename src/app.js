@@ -17,4 +17,19 @@ app.get("/cats/:catId", (req, res) => {
   Cat.findByPk(req.params.catId).then((cat) => res.json(cat));
 });
 
+// Retrieve Cats using query
+// app.get("/cats/:string", (req, res) => {
+//   const { string } = req.query;
+//   Cat.findAll({ where: { name: string } });
+
+//   return res.send();
+// });
+
+app.patch("/cats/:catId", (req, res) => {
+  const { catId } = req.params;
+  Cat.update({ lastFed: new Date() }, { where: { id: catId } });
+
+  return res.send();
+});
+
 module.exports = app;
